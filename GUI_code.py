@@ -9,10 +9,10 @@ from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QTransform
 from PyQt5.QtCore import QPointF
 
-import Car
+from CarCreator import CarCreator
 
-
-car1=Car.Car(1,0,0)
+#import Car
+#car1=Car.Car(1,0,0)
 
 
 
@@ -50,7 +50,8 @@ class Window(QMainWindow):
 
         global car1
 
-        car1.update_car_angle()
+       #car1.update_car_angle()
+        #list(map(lambda x:x.update_car_angle(),CarCreator.Inner_Car_List))
 
 
         painter= QPainter(self)
@@ -78,10 +79,12 @@ class Window(QMainWindow):
         # drawing lanes is complete. Now drawing cars
 
         painter.setBrush(QBrush(Qt.green,Qt.SolidPattern))
-        painter.drawEllipse(car1.calculate_position(),25,25)   #car 1
-        painter.drawEllipse(QPointF(-100,0),25,25)  #car 2
-        painter.drawEllipse(QPointF(0,-100),25,25)  #car 3
+        # painter.drawEllipse(car1.calculate_position(),25,25)   #car 1
+        # painter.drawEllipse(QPointF(-100,0),25,25)  #car 2
+        # painter.drawEllipse(QPointF(0,-100),25,25)  #car 3
 
+        for a_car in CarCreator.Inner_Car_List:
+            painter.drawEllipse(a_car.calculate_position(),25,25)
 
 
 

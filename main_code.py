@@ -5,12 +5,14 @@ import sys
 
 from CarCreator import CarCreator
 
+
 if __name__=='__main__':
 
-    NUMBER_OF_CARS_INNER_LANE = 2
+    NUMBER_OF_CARS_INNER_LANE = 5  #MAX LIMIT =8
     NUMBER_OF_CARS_OUTER_LANE = 2
 
     CarCreator(NUMBER_OF_CARS_OUTER_LANE , NUMBER_OF_CARS_INNER_LANE)
+
 
 
 

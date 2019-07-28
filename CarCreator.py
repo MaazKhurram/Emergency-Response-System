@@ -4,6 +4,7 @@ from Car import Car
 from random import randint
 
 
+
 class CarCreator:
 
 
@@ -19,33 +20,38 @@ class CarCreator:
         self.Inner_Car_List.append(Car(self.car_number,0,1))        #create the first car manually
 
 
-        for i in range(0,inner_cars-1):                             #create all other cars in a loop
+        for i in range(0,inner_cars-1):                 #create all other cars in a loop
 
+            self.car_creation_tries=0
             self.car_number+=1
 
             while(1):                                         #This infinite loop tries to find an open position for the new car in the inner lane
 
-                if self.car_creation_tries==10:
+                if self.car_creation_tries==20:
                     print("Too many inner lane cars")
                     break                                           #if can't find a spot in mentioned tries , the inner lane is probably full
                 else:
                     self.car_creation_tries+=1
 
-                random_angle= randint(0,360)                        #create a random angle
+                random_angle= randint(0,360)                    #create a random angle
+
+
 
                 for a_car in self.Inner_Car_List:
-                    if abs(random_angle-a_car.CarAngle)<30:         #check if any existing cars are close to this position
-                        permission_to_create_car=0
 
-                if self.permission_to_create_car==1:                     #if no existing car is close , it is safe to create a new car at this postion
+                    if abs(random_angle-a_car.CarAngle)<30 or abs(random_angle-360-a_car.CarAngle)<30:         #check if any existing cars are close to this position
+
+                        self.permission_to_create_car=0
+                        break
+
+                if self.permission_to_create_car==1:                #if no existing car is close , it is safe to create a new car at this postion
+
                     self.Inner_Car_List.append(Car(self.car_number,random_angle,1))
                     break
 
                 else:
                     self.permission_to_create_car=1                 #set the permission back to true for the next trial to find a new random position
 
-
-        print ("all inner cars created successfully")
 
 
 
