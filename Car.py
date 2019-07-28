@@ -2,6 +2,7 @@ from PyQt5.QtCore import QPointF
 import math
 
 
+
 class Car:
 
     def __init__(self,number,angle,lane_changed):
@@ -16,6 +17,15 @@ class Car:
         self.carY=100*math.sin(math.radians(self.CarAngle))
 
         return QPointF(self.carX,self.carY)
+
+
+    def update_car_angle(self):
+        if self.CarAngle==360:
+            self.CarAngle=1
+        else:
+            self.CarAngle+=0.75
+
+
 
 
 

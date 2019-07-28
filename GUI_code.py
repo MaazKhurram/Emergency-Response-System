@@ -11,11 +11,10 @@ from PyQt5.QtCore import QPointF
 
 import Car
 
+
 car1=Car.Car(1,0,0)
 
 
-angle=0
-varx=0
 
 
 class Window(QMainWindow):
@@ -28,7 +27,7 @@ class Window(QMainWindow):
         timer.timeout.connect(self.update)
         timer.start(0)
 
-        self.title= "PyQt5 Drawing Rectangle"
+        self.title= "Emergency Response System"
         self.top=100
         self.left=100
         self.width=500
@@ -49,14 +48,9 @@ class Window(QMainWindow):
 
     def paintEvent(self, e):
 
-        global varx
-        global car1y, angle
+        global car1
 
-        #car location calculation
-        if car1.CarAngle==360:
-            car1.CarAngle=1
-        else:
-            car1.CarAngle+=0.75
+        car1.update_car_angle()
 
 
         painter= QPainter(self)
@@ -74,8 +68,7 @@ class Window(QMainWindow):
         painter.setPen(QPen(Qt.yellow,5,Qt.DashLine))
         painter.setBrush(QBrush(Qt.gray,Qt.SolidPattern))
 
-        painter.drawEllipse(QPointF(varx,0),150,150)                   #draw inner lane
-        #varx=varx+10
+        painter.drawEllipse(QPointF(0,0),150,150)                   #draw inner lane
 
         painter.setPen(QPen(Qt.black,2,Qt.SolidLine))
         painter.setBrush(QBrush(Qt.black,Qt.SolidPattern))
