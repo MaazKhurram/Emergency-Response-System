@@ -11,10 +11,6 @@ from PyQt5.QtCore import QPointF
 
 from CarCreator import CarCreator
 
-#import Car
-#car1=Car.Car(1,0,0)
-
-
 
 
 class Window(QMainWindow):
@@ -48,11 +44,8 @@ class Window(QMainWindow):
 
     def paintEvent(self, e):
 
-        global car1
-
-       #car1.update_car_angle()
-        #list(map(lambda x:x.update_car_angle(),CarCreator.Inner_Car_List))
-
+        list(map(lambda x:x.update_car_angle("inner"),CarCreator.Inner_Car_List))      # lambda function to update angle of every car object in this list
+        list(map(lambda x:x.update_car_angle("outer"),CarCreator.Outer_Car_List))
 
         painter= QPainter(self)
 
@@ -84,7 +77,10 @@ class Window(QMainWindow):
         # painter.drawEllipse(QPointF(0,-100),25,25)  #car 3
 
         for a_car in CarCreator.Inner_Car_List:
-            painter.drawEllipse(a_car.calculate_position(),25,25)
+            painter.drawEllipse(a_car.calculate_position("inner"),25,25)
+
+        for a_car in CarCreator.Outer_Car_List:
+            painter.drawEllipse(a_car.calculate_position("outer"),25,25)
 
 
 

@@ -12,20 +12,40 @@ class Car:
 
 
 
-    def calculate_position(self):
-        self.carX=100*math.cos(math.radians(self.CarAngle))
-        self.carY=100*math.sin(math.radians(self.CarAngle))
+    def calculate_position(self, lane_identifier):
 
-        return QPointF(self.carX,self.carY)
+        if lane_identifier=="inner":
+            self.carX=100*math.cos(math.radians(self.CarAngle))
+            self.carY=100*math.sin(math.radians(self.CarAngle))
 
+            return QPointF(self.carX,self.carY)
 
-    def update_car_angle(self):
-        if self.CarAngle==360:
-            self.CarAngle=1
+        elif lane_identifier=="outer":
+            self.carX=200*math.cos(math.radians(self.CarAngle))
+            self.carY=200*math.sin(math.radians(self.CarAngle))
+
+            return QPointF(self.carX,self.carY)
+
         else:
-            self.CarAngle+=0.75
+            print ("error identifying the lane of the car --- Car.calculate_positon() failed")
 
 
+    def update_car_angle(self,lane_identifier):
+
+        if lane_identifier=="inner":
+            if self.CarAngle==360:
+                self.CarAngle=1
+            else:
+                self.CarAngle+=0.75
+
+        elif lane_identifier=="outer":
+            if self.CarAngle==360:
+                self.CarAngle=1
+            else:
+                self.CarAngle+=1
+
+        else:
+            print("error identifying the lane of the car --- Car.update_car_angle() failed")
 
 
 
