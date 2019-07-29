@@ -5,7 +5,8 @@ from CarCreator import CarCreator
 
 class DistanceLeaderBoard:
 
-    Distance_list=[]
+    Distance_list_inner=[]
+    Distance_list_outer=[]
 
     def __init__(self, outer_cars, inner_cars):
 
@@ -22,12 +23,38 @@ class DistanceLeaderBoard:
 
             if other>you:
                 angular_distance=other-you
-                self.Distance_list.append([angle_sorted_inner_cars[i-1].CarNumber , angle_sorted_inner_cars[i].CarNumber , angular_distance])        # [other , you , distance between other and you when other is ahead ]
+                self.Distance_list_inner.append([angle_sorted_inner_cars[i - 1].CarNumber , angle_sorted_inner_cars[i].CarNumber , angular_distance])        # [other , you , distance between other and you when other is ahead ]
 
 
             elif other<you:
                 angular_distance=other+360-you
-                self.Distance_list.append([angle_sorted_inner_cars[i-1].CarNumber , angle_sorted_inner_cars[i].CarNumber , angular_distance])        # [you , other , distance between other and you when you are ahead ]
+                self.Distance_list_inner.append([angle_sorted_inner_cars[i - 1].CarNumber , angle_sorted_inner_cars[i].CarNumber , angular_distance])        # [you , other , distance between other and you when you are ahead ]
 
 
-        print(*self.Distance_list, sep = "\n")
+        print(*self.Distance_list_inner, sep ="\n")
+
+
+        #---------------------------------------
+        #inner cars done . now calculating angular distances for outer cars
+
+        angle_sorted_outer_cars = sorted(CarCreator.Outer_Car_List, key=lambda x: x.CarAngle, reverse=True)
+
+        angle_sorted_outer_cars.insert(0, angle_sorted_outer_cars[len(angle_sorted_outer_cars)-1])        #copy and insert the last Car object in the list on the first place
+
+
+
+        for i in range(len(angle_sorted_outer_cars)-1, 0, -1):
+
+            other = angle_sorted_outer_cars[i-1].CarAngle
+            you = angle_sorted_outer_cars[i].CarAngle
+
+            if other>you:
+                angular_distance=other-you
+                self.Distance_list_outer.append([angle_sorted_outer_cars[i - 1].CarNumber , angle_sorted_outer_cars[i].CarNumber , angular_distance])        # [other , you , distance between other and you when other is ahead ]
+
+
+            elif other<you:
+                angular_distance=other+360-you
+                self.Distance_list_outer.append([angle_sorted_outer_cars[i - 1].CarNumber , angle_sorted_outer_cars[i].CarNumber , angular_distance])        # [you , other , distance between other and you when you are ahead ]
+
+        print(*self.Distance_list_outer, sep ="\n")

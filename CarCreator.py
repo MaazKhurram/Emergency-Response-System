@@ -85,7 +85,7 @@ class CarCreator:
 
                 for a_car in self.Outer_Car_List:
 
-                    if abs(random_angle-a_car.CarAngle)<30 or abs(random_angle-360-a_car.CarAngle)<30:      #check if any existing cars are close to this position
+                    if abs(random_angle-a_car.CarAngle)<20 or abs(random_angle-360-a_car.CarAngle)<20:      #check if any existing cars are close to this position
 
                         self.permission_to_create_car=0
                         break
