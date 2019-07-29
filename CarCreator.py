@@ -1,6 +1,6 @@
 
 
-from Car import Car
+
 from random import randint
 
 
@@ -13,6 +13,8 @@ class CarCreator:
     car_creation_tries=0
     Inner_Car_List=[]
     Outer_Car_List=[]
+
+    priority_counter=1 # only for outer lane cars. Lower number means higher priority
 
 
     def __init__(self, outer_cars, inner_cars):
@@ -59,6 +61,7 @@ class CarCreator:
         #---------------------------------------------------------------------------------------------------------------
         #now creating cars in the outer lane
 
+        self.car_number+=1
 
         self.Outer_Car_List.append(Car(self.car_number,0,0))    #create the first car manually
 
@@ -89,10 +92,14 @@ class CarCreator:
 
                 if self.permission_to_create_car==1:                                                   #if no existing car is close , it is safe to create a new car at this postion
 
-                    self.Outer_Car_List.append(Car(self.car_number,random_angle,0))
+                    self.Outer_Car_List.append(Car(self.car_number,random_angle,0,priority=self.priority_counter))
+                    self.priority_counter+=1
                     break
 
                 else:
                     self.permission_to_create_car=1                 #set the permission back to true for the next trial to find a new random position
 
 
+
+
+from Car import Car

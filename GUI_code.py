@@ -9,6 +9,7 @@ from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QTransform
 from PyQt5.QtCore import QPointF
 
+
 from CarCreator import CarCreator
 
 
@@ -44,7 +45,7 @@ class Window(QMainWindow):
 
     def paintEvent(self, e):
 
-        list(map(lambda x:x.update_car_angle("inner"),CarCreator.Inner_Car_List))      # lambda function to update angle of every car object in this list
+        list(map(lambda x:x.update_car_angle("inner"),CarCreator.Inner_Car_List))      # lambda functions to update angle of every car object in this list
         list(map(lambda x:x.update_car_angle("outer"),CarCreator.Outer_Car_List))
 
         painter= QPainter(self)
@@ -56,45 +57,48 @@ class Window(QMainWindow):
         painter.setPen(QPen(Qt.black,1,Qt.SolidLine))
         painter.setBrush(QBrush(Qt.gray,Qt.SolidPattern))
 
-        painter.drawEllipse(QPointF(0,0),250,250)                      #draw outer lane
+        painter.drawEllipse(QPointF(0,0),250,250)                       #draw outer lane
 
 
         painter.setPen(QPen(Qt.yellow,5,Qt.DashLine))
         painter.setBrush(QBrush(Qt.gray,Qt.SolidPattern))
 
-        painter.drawEllipse(QPointF(0,0),150,150)                   #draw inner lane
+        painter.drawEllipse(QPointF(0,0),150,150)                       #draw inner lane
 
         painter.setPen(QPen(Qt.black,2,Qt.SolidLine))
         painter.setBrush(QBrush(Qt.black,Qt.SolidPattern))
 
         painter.drawEllipse(QPointF(0,0),50,50)                         #black centre
 
-        # drawing lanes is complete. Now drawing cars
+        # -------------------------------------------------------------------------------------------------------------
+        # Drawing lanes is complete. Now drawing cars
 
         painter.setBrush(QBrush(Qt.green,Qt.SolidPattern))
-        # painter.drawEllipse(car1.calculate_position(),25,25)   #car 1
-        # painter.drawEllipse(QPointF(-100,0),25,25)  #car 2
-        # painter.drawEllipse(QPointF(0,-100),25,25)  #car 3
+
 
         for a_car in CarCreator.Inner_Car_List:
-            painter.drawEllipse(a_car.calculate_position("inner"),25,25)
+            painter.drawEllipse(a_car.calculate_position("inner"),a_car.CAR_GUI_RADIUS,a_car.CAR_GUI_RADIUS)
+            painter.drawText(a_car.calculate_position("inner"),str(a_car.CarNumber))
+
 
         for a_car in CarCreator.Outer_Car_List:
-            painter.drawEllipse(a_car.calculate_position("outer"),25,25)
+            painter.drawEllipse(a_car.calculate_position("outer"),a_car.CAR_GUI_RADIUS,a_car.CAR_GUI_RADIUS)
+            painter.drawText(a_car.calculate_position("outer"),str(a_car.CarNumber))
 
 
 
         painter.setPen(QPen(Qt.red,1,Qt.SolidLine))
         painter.setBrush(QBrush(Qt.green,Qt.NoBrush))
 
-        painter.drawEllipse(QPointF(0,0),100,100)   #draw constuction line
+        painter.drawEllipse(QPointF(0,0),100,100)   #draw constuction line on inner lane
+        painter.drawEllipse(QPointF(0,0),200,200)   #draw constuction line on outer lane
 
         painter.setPen(QPen(Qt.red,1,Qt.SolidLine))
         painter.setBrush(QBrush(Qt.red,Qt.SolidPattern))
 
-        painter.drawEllipse(QPointF(100,0),5,5)
-        painter.drawEllipse(QPointF(-100,0),5,5)
-        painter.drawEllipse(QPointF(0,-100),5,5)
+        # painter.drawEllipse(QPointF(100,0),5,5)
+        # painter.drawEllipse(QPointF(-100,0),5,5)
+        # painter.drawEllipse(QPointF(0,-100),5,5)
 
 
 

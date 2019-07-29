@@ -1,14 +1,22 @@
 from PyQt5.QtCore import QPointF
 import math
-
+from CarCreator import CarCreator
 
 
 class Car:
 
-    def __init__(self,number,angle,lane_changed):
+    CAR_GUI_RADIUS=25
+    free_distance_ahead=0
+
+    def __init__(self,number,angle,lane_changed,**kwargs):
         self.CarAngle = angle
         self.CarNumber = number
         self.lane_changed = lane_changed
+
+        if "priority" in kwargs:            #if priority is mentioned , use it , otherwise default to 0
+            self.priority=kwargs['priority']
+        else:
+            self.priority=0
 
 
 
@@ -46,6 +54,22 @@ class Car:
 
         else:
             print("error identifying the lane of the car --- Car.update_car_angle() failed")
+
+
+
+
+    # def check_gap_inner_lane(self):     # only called on outer lane cars
+    #
+    #     next_closest_car = None                      #stores the Car object of next closest car
+    #
+    #     for a_car in CarCreator.Inner_Car_List:
+    #         if self.CarAngle == a_car.CarAngle:     #if angle of an outer lane car matches with any inner lane car
+    #
+    #             anglular_distance= self.
+    #             for a_car in CarCreator.Inner_Car_List[1:]:
+    #                 anglular_distance= self.ca
+    #
+
 
 
 
