@@ -11,8 +11,9 @@ from PyQt5.QtCore import QPointF
 
 
 from CarCreator import CarCreator
+#from DistanceLeaderBoard import DistanceLeaderBoard
 
-
+#from main_code import my_obj
 
 class Window(QMainWindow):
     def __init__(self):
@@ -41,6 +42,7 @@ class Window(QMainWindow):
         self.setWindowTitle(self.title)
         self.setGeometry(self.top,self.left,self.width,self.height)
         self.show()
+
 
 
     def paintEvent(self, e):
@@ -81,11 +83,14 @@ class Window(QMainWindow):
             painter.drawText(a_car.calculate_position("inner"),str(a_car.CarNumber))
 
 
+
+
         for a_car in CarCreator.Outer_Car_List:
             painter.drawEllipse(a_car.calculate_position("outer"),a_car.CAR_GUI_RADIUS,a_car.CAR_GUI_RADIUS)
             painter.drawText(a_car.calculate_position("outer"),str(a_car.CarNumber))
 
-
+        #print(dir(main_code.my_obj))
+        #my_obj.update_leaderboard()
 
         painter.setPen(QPen(Qt.red,1,Qt.SolidLine))
         painter.setBrush(QBrush(Qt.green,Qt.NoBrush))

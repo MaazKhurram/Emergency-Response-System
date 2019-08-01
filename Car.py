@@ -1,6 +1,6 @@
 from PyQt5.QtCore import QPointF
 import math
-from CarCreator import CarCreator
+
 
 
 class Car:
@@ -55,6 +55,14 @@ class Car:
         else:
             print("error identifying the lane of the car --- Car.update_car_angle() failed")
 
+
+
+
+    def __str__(self):
+        return  ("--------------------- Car number = " + str(self.CarNumber) + " ---------------------\n"
+        " Car current angle = " + str(self.CarAngle) + "\n"
+        " Car priority = " + str(self.priority) + "\n"
+        " Free distance ahead : " + str(self.free_distance_ahead) + "\n\n")
 
 
 
