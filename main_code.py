@@ -1,9 +1,6 @@
 
-from PyQt5.QtWidgets import QApplication,QMainWindow
 import sys
-
 from CarCreator import CarCreator
-#from DistanceLeaderBoard import DistanceLeaderBoard
 import GUI_code
 
 if __name__=='__main__':
@@ -13,18 +10,9 @@ if __name__=='__main__':
 
     car_creator_obj= CarCreator(NUMBER_OF_CARS_OUTER_LANE , NUMBER_OF_CARS_INNER_LANE)
 
-    #my_obj=DistanceLeaderBoard()
 
-    #my_obj.update_leaderboard()
-
-
-
-
-    App = QApplication(sys.argv)
+    App = GUI_code.QApplication(sys.argv)
     window = GUI_code.Window()
-
-
-
     sys.exit(App.exec())
 
 

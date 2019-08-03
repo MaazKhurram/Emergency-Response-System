@@ -11,13 +11,16 @@ from PyQt5.QtCore import QPointF
 
 
 from CarCreator import CarCreator
-#from DistanceLeaderBoard import DistanceLeaderBoard
+from CarMaintainer import CarMaintainer
 
-#from main_code import my_obj
+
+
 
 class Window(QMainWindow):
     def __init__(self):
         super().__init__()
+
+
 
 
         timer = QTimer(self)
@@ -31,7 +34,11 @@ class Window(QMainWindow):
         self.width=500
         self.height=500
 
-
+        CarMaintainer()
+        print("now printing the results ")
+        print(CarMaintainer.Inner_Car_List, sep = "\n")
+        print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        print(CarMaintainer.Outer_Car_List, sep = "\n")
 
         self.InitWindow()
 
@@ -47,8 +54,10 @@ class Window(QMainWindow):
 
     def paintEvent(self, e):
 
-        list(map(lambda x:x.update_car_angle("inner"),CarCreator.Inner_Car_List))      # lambda functions to update angle of every car object in this list
-        list(map(lambda x:x.update_car_angle("outer"),CarCreator.Outer_Car_List))
+
+
+        list(map(lambda x:x.update_car_angle("inner"),CarMaintainer.Inner_Car_List))      # lambda functions to update angle of every car object in this list
+        list(map(lambda x:x.update_car_angle("outer"),CarMaintainer.Outer_Car_List))
 
         painter= QPainter(self)
 
@@ -78,14 +87,14 @@ class Window(QMainWindow):
         painter.setBrush(QBrush(Qt.green,Qt.SolidPattern))
 
 
-        for a_car in CarCreator.Inner_Car_List:
+        for a_car in CarMaintainer.Inner_Car_List:
             painter.drawEllipse(a_car.calculate_position("inner"),a_car.CAR_GUI_RADIUS,a_car.CAR_GUI_RADIUS)
             painter.drawText(a_car.calculate_position("inner"),str(a_car.CarNumber))
 
 
 
 
-        for a_car in CarCreator.Outer_Car_List:
+        for a_car in CarMaintainer.Outer_Car_List:
             painter.drawEllipse(a_car.calculate_position("outer"),a_car.CAR_GUI_RADIUS,a_car.CAR_GUI_RADIUS)
             painter.drawText(a_car.calculate_position("outer"),str(a_car.CarNumber))
 

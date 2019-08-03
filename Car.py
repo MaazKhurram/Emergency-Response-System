@@ -2,7 +2,6 @@ from PyQt5.QtCore import QPointF
 import math
 
 
-
 class Car:
 
     CAR_GUI_RADIUS=25
