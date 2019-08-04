@@ -10,13 +10,18 @@ from PyQt5.QtGui import QTransform
 from PyQt5.QtCore import QPointF
 
 
-from CarCreator import CarCreator
+
 from CarMaintainer import CarMaintainer
+from Algorithm import Algorithm
 
 
 
 
 class Window(QMainWindow):
+
+    STATE_OF_EMERGENCY=0
+
+
     def __init__(self):
         super().__init__()
 
@@ -35,11 +40,7 @@ class Window(QMainWindow):
         self.height=500
 
         CarMaintainer()
-        print("now printing the results ")
-        print(CarMaintainer.Inner_Car_List, sep = "\n")
-        print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-        print(CarMaintainer.Outer_Car_List, sep = "\n")
-
+        Algorithm()
         self.InitWindow()
 
 
@@ -55,9 +56,8 @@ class Window(QMainWindow):
     def paintEvent(self, e):
 
 
+        Algorithm.run_algorithm(Window.STATE_OF_EMERGENCY)
 
-        list(map(lambda x:x.update_car_angle("inner"),CarMaintainer.Inner_Car_List))      # lambda functions to update angle of every car object in this list
-        list(map(lambda x:x.update_car_angle("outer"),CarMaintainer.Outer_Car_List))
 
         painter= QPainter(self)
 
@@ -98,8 +98,6 @@ class Window(QMainWindow):
             painter.drawEllipse(a_car.calculate_position("outer"),a_car.CAR_GUI_RADIUS,a_car.CAR_GUI_RADIUS)
             painter.drawText(a_car.calculate_position("outer"),str(a_car.CarNumber))
 
-        #print(dir(main_code.my_obj))
-        #my_obj.update_leaderboard()
 
         painter.setPen(QPen(Qt.red,1,Qt.SolidLine))
         painter.setBrush(QBrush(Qt.green,Qt.NoBrush))

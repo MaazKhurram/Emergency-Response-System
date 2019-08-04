@@ -1,5 +1,5 @@
 from CarCreator import CarCreator
-from DistanceLeaderBoard import DistanceLeaderBoard
+
 
 
 
@@ -14,15 +14,6 @@ class CarMaintainer:
         CarMaintainer.Outer_Car_List = CarCreator.Outer_Car_List
 
 
-        print(*CarMaintainer.Inner_Car_List, sep ="\n")
-        print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-        print(*CarMaintainer.Outer_Car_List, sep ="\n")
-
-        print("just copied the lists")
-
-
-    def run_algortihm(self):
-        pass
 
 
 
