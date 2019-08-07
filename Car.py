@@ -39,7 +39,7 @@ class Car:
             else:
                 self.CarAngle+=0.75
 
-        elif self.CarLaneRadius==200:
+        elif self.CarLaneRadius <= 200 and self.CarLaneRadius >=150:
             if self.CarAngle==360:
                 self.CarAngle=1
             else:
@@ -49,9 +49,9 @@ class Car:
 
 
 
-        elif self.CarLaneRadius<200 and self.CarLaneRadius>=100:                        # this will be used for cars in transition
+        elif self.CarLaneRadius <= 150 and self.CarLaneRadius >= 100:                        # this will be used for cars in transition
             self.CarLaneRadius -= 0.5
-            self.CarAngle += self.radius_to_speed_mapping(self.CarLaneRadius,100,200,0.75,1)
+            self.CarAngle += self.radius_to_speed_mapping(self.CarLaneRadius,150,200,0.75,1)    
 
 
         else:
