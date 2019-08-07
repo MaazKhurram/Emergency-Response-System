@@ -17,7 +17,7 @@ class CarCreator:
     def __init__(self, outer_cars, inner_cars):
 
 
-        CarCreator.Inner_Car_List.append(Car(CarCreator.car_number, 0, 1))    #create the first car manually
+        CarCreator.Inner_Car_List.append(Car(CarCreator.car_number, 0, 1, lane_radius=100))    #create the first car manually
 
 
         for i in range(0,inner_cars-1):                         #create all other cars in a loop
@@ -46,7 +46,7 @@ class CarCreator:
 
                 if CarCreator.permission_to_create_car==1:                                                   #if no existing car is close , it is safe to create a new car at this postion
 
-                    CarCreator.Inner_Car_List.append(Car(CarCreator.car_number, random_angle, 1))
+                    CarCreator.Inner_Car_List.append(Car(CarCreator.car_number, random_angle, 1, lane_radius=100))
                     break
 
                 else:
@@ -60,7 +60,7 @@ class CarCreator:
 
         CarCreator.car_number+=1
 
-        CarCreator.Outer_Car_List.append(Car(CarCreator.car_number, 0, 0))    #create the first car manually
+        CarCreator.Outer_Car_List.append(Car(CarCreator.car_number, 0, 0, lane_radius=200))    #create the first car manually
 
 
         for i in range(0,outer_cars-1):                         #create all other cars in a loop
@@ -89,7 +89,7 @@ class CarCreator:
 
                 if CarCreator.permission_to_create_car==1:                                                   #if no existing car is close , it is safe to create a new car at this postion
 
-                    CarCreator.Outer_Car_List.append(Car(CarCreator.car_number, random_angle, 0, priority=CarCreator.priority_counter))
+                    CarCreator.Outer_Car_List.append(Car(CarCreator.car_number, random_angle, 0, priority=CarCreator.priority_counter , lane_radius=200))
                     CarCreator.priority_counter+=1
                     break
 

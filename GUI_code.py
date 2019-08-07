@@ -88,15 +88,15 @@ class Window(QMainWindow):
 
 
         for a_car in CarMaintainer.Inner_Car_List:
-            painter.drawEllipse(a_car.calculate_position("inner"),a_car.CAR_GUI_RADIUS,a_car.CAR_GUI_RADIUS)
-            painter.drawText(a_car.calculate_position("inner"),str(a_car.CarNumber))
+            painter.drawEllipse(a_car.calculate_position(),a_car.CAR_GUI_RADIUS,a_car.CAR_GUI_RADIUS)
+            painter.drawText(a_car.calculate_position(),str(a_car.CarNumber))
 
 
 
 
         for a_car in CarMaintainer.Outer_Car_List:
-            painter.drawEllipse(a_car.calculate_position("outer"),a_car.CAR_GUI_RADIUS,a_car.CAR_GUI_RADIUS)
-            painter.drawText(a_car.calculate_position("outer"),str(a_car.CarNumber))
+            painter.drawEllipse(a_car.calculate_position(),a_car.CAR_GUI_RADIUS,a_car.CAR_GUI_RADIUS)
+            painter.drawText(a_car.calculate_position(),str(a_car.CarNumber))
 
 
         painter.setPen(QPen(Qt.red,1,Qt.SolidLine))

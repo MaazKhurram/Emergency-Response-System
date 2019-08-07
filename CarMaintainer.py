@@ -5,8 +5,9 @@ from CarCreator import CarCreator
 
 class CarMaintainer:
 
-    Inner_Car_List=None
-    Outer_Car_List=None
+    Inner_Car_List = []
+    Outer_Car_List = []
+    In_Transition_List = []
 
     def __init__(self):
 
