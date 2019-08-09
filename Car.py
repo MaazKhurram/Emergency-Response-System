@@ -5,7 +5,8 @@ import math
 class Car:
 
     CAR_GUI_RADIUS=25
-    free_distance_ahead=0
+    free_distance_ahead = 0  #used to arrange inner car lanes to produce more gaps
+    PSUEDO_CAR = False
 
 
     def __init__(self,number,angle,lane_changed, lane_radius, **kwargs):
@@ -34,24 +35,36 @@ class Car:
     def update_car_angle(self):
 
         if self.CarLaneRadius==100:
-            if self.CarAngle==360:
+            if self.CarAngle <= 361 and self.CarAngle >=359:
                 self.CarAngle=1
             else:
                 self.CarAngle+=0.75
 
-        elif self.CarLaneRadius <= 200 and self.CarLaneRadius >=150:
-            if self.CarAngle==360:
+        elif self.CarLaneRadius == 200 :
+            if self.CarAngle <= 361 and self.CarAngle >=359:
+                self.CarAngle=1
+            else:
+                self.CarAngle+=1
+
+        elif self.CarLaneRadius < 200 and self.CarLaneRadius >=150:
+
+            if self.CarAngle <= 361 and self.CarAngle >=359:
                 self.CarAngle=1
             else:
                 self.CarAngle+=1
 
             self.CarLaneRadius-=1
+            #print (self.CarNumber, self.CarAngle)
 
 
 
         elif self.CarLaneRadius <= 150 and self.CarLaneRadius >= 100:                        # this will be used for cars in transition
             self.CarLaneRadius -= 0.5
-            self.CarAngle += self.radius_to_speed_mapping(self.CarLaneRadius,150,200,0.75,1)    
+            self.CarAngle += self.radius_to_speed_mapping(self.CarLaneRadius,150,200,0.75,1)
+
+
+            #print (self.CarNumber, self.CarAngle)
+            #print ("+++++++++++++++++++++++++++++")
 
 
         else:
@@ -65,20 +78,6 @@ class Car:
         " Car current angle = " + str(self.CarAngle) + "\n"
         " Car priority = " + str(self.priority) + "\n"
         " Free distance ahead : " + str(self.free_distance_ahead) + "\n\n")
-
-
-
-    # def check_gap_inner_lane(self):     # only called on outer lane cars
-    #
-    #     next_closest_car = None                      #stores the Car object of next closest car
-    #
-    #     for a_car in CarCreator.Inner_Car_List:
-    #         if self.CarAngle == a_car.CarAngle:     #if angle of an outer lane car matches with any inner lane car
-    #
-    #             anglular_distance= self.
-    #             for a_car in CarCreator.Inner_Car_List[1:]:
-    #                 anglular_distance= self.ca
-    #
 
 
 

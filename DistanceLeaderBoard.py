@@ -91,12 +91,12 @@ class DistanceLeaderBoard:
 
         for i in range(len(angle_sorted_inner_cars)-1, 0, -1):
 
-            other = angle_sorted_inner_cars[i-1].CarAngle
+            other = angle_sorted_inner_cars[i-1].CarAngle           #other is always ahead of you
             you = angle_sorted_inner_cars[i].CarAngle
 
             if other>you:
                 angular_distance=other-you
-                DistanceLeaderBoard.Distance_list_inner.append([angle_sorted_inner_cars[i - 1].CarNumber , angle_sorted_inner_cars[i].CarNumber , angular_distance])        # [other , you , distance between other and you when other is ahead ]
+                DistanceLeaderBoard.Distance_list_inner.append([angle_sorted_inner_cars[i - 1].CarNumber , angle_sorted_inner_cars[i].CarNumber , angular_distance])        # [ahead , behind , distance between other and you when other is ahead ]
 
                 angle_sorted_inner_cars[i].free_distance_ahead = angular_distance
 
@@ -104,7 +104,7 @@ class DistanceLeaderBoard:
 
             elif other<you:
                 angular_distance=other+360-you
-                DistanceLeaderBoard.Distance_list_inner.append([angle_sorted_inner_cars[i - 1].CarNumber , angle_sorted_inner_cars[i].CarNumber , angular_distance])        # [you , other , distance between other and you when you are ahead ]
+                DistanceLeaderBoard.Distance_list_inner.append([angle_sorted_inner_cars[i - 1].CarNumber , angle_sorted_inner_cars[i].CarNumber , angular_distance])        # [ahead , behind , distance between other and you when you are ahead ]
 
                 angle_sorted_inner_cars[i].free_distance_ahead = angular_distance
 

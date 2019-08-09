@@ -2,12 +2,13 @@
 
 
 from PyQt5 import QtGui
-from PyQt5.QtWidgets import QApplication,QMainWindow
+from PyQt5.QtWidgets import QApplication,QMainWindow, QWidget, QPushButton
 from PyQt5.QtGui import QPainter,QBrush, QPen
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QTransform
 from PyQt5.QtCore import QPointF
+
 
 
 
@@ -19,11 +20,12 @@ from Algorithm import Algorithm
 
 class Window(QMainWindow):
 
-    STATE_OF_EMERGENCY=0
+    STATE_OF_EMERGENCY=1
 
 
     def __init__(self):
         super().__init__()
+
 
 
 
@@ -39,6 +41,14 @@ class Window(QMainWindow):
         self.width=500
         self.height=500
 
+
+        #button = QPushButton('button', self)
+        #button.move(0,0)
+        #button.clicked.connect(self.on_click)
+
+
+
+
         CarMaintainer()
         Algorithm()
         self.InitWindow()
@@ -49,14 +59,22 @@ class Window(QMainWindow):
         self.setWindowIcon(QtGui.QIcon('icon.png'))
         self.setWindowTitle(self.title)
         self.setGeometry(self.top,self.left,self.width,self.height)
+
+
+
         self.show()
+
+
+    def on_click(self):
+        Window.STATE_OF_EMERGENCY=1
+        print("TEST")
 
 
 
     def paintEvent(self, e):
 
 
-        Algorithm.run_algorithm(Window.STATE_OF_EMERGENCY)
+
 
 
         painter= QPainter(self)
@@ -87,6 +105,20 @@ class Window(QMainWindow):
         painter.setBrush(QBrush(Qt.green,Qt.SolidPattern))
 
 
+
+        counter=1
+        for point in Algorithm.run_algorithm(Window.STATE_OF_EMERGENCY):
+
+            if counter==1:
+                painter.drawEllipse(QPointF(point[0], point[1]),10,10)
+                counter=-1
+            else:
+                painter.drawEllipse(QPointF(point[0], point[1]),5,5)
+                counter=1
+
+
+
+
         for a_car in CarMaintainer.Inner_Car_List:
             painter.drawEllipse(a_car.calculate_position(),a_car.CAR_GUI_RADIUS,a_car.CAR_GUI_RADIUS)
             painter.drawText(a_car.calculate_position(),str(a_car.CarNumber))
@@ -115,7 +147,6 @@ class Window(QMainWindow):
 
 
         painter.drawEllipse(QPointF(0,0),10,10)
-
 
 
 
