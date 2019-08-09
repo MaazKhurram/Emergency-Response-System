@@ -14,6 +14,7 @@ class Car:
         self.CarNumber = number
         self.lane_changed = lane_changed
         self.CarLaneRadius = lane_radius
+        self.lane_change_started = False
 
 
         if "priority" in kwargs:            #if priority is mentioned , use it , otherwise default to 0
@@ -44,14 +45,14 @@ class Car:
             if self.CarAngle <= 361 and self.CarAngle >=359:
                 self.CarAngle=1
             else:
-                self.CarAngle+=1
+                self.CarAngle+=1.5
 
         elif self.CarLaneRadius < 200 and self.CarLaneRadius >=150:
 
             if self.CarAngle <= 361 and self.CarAngle >=359:
                 self.CarAngle=1
             else:
-                self.CarAngle+=1
+                self.CarAngle+=1.5
 
             self.CarLaneRadius-=1
             #print (self.CarNumber, self.CarAngle)
@@ -60,7 +61,7 @@ class Car:
 
         elif self.CarLaneRadius <= 150 and self.CarLaneRadius >= 100:                        # this will be used for cars in transition
             self.CarLaneRadius -= 0.5
-            self.CarAngle += self.radius_to_speed_mapping(self.CarLaneRadius,150,200,0.75,1)
+            self.CarAngle += self.radius_to_speed_mapping(self.CarLaneRadius,150,200,0.75,1.5)
 
 
             #print (self.CarNumber, self.CarAngle)

@@ -120,8 +120,19 @@ class Window(QMainWindow):
 
 
         for a_car in CarMaintainer.Inner_Car_List:
-            painter.drawEllipse(a_car.calculate_position(),a_car.CAR_GUI_RADIUS,a_car.CAR_GUI_RADIUS)
-            painter.drawText(a_car.calculate_position(),str(a_car.CarNumber))
+            if a_car.PSUEDO_CAR==False:
+                painter.drawEllipse(a_car.calculate_position(),a_car.CAR_GUI_RADIUS,a_car.CAR_GUI_RADIUS)
+                painter.drawText(a_car.calculate_position(),str(a_car.CarNumber))
+
+            else:
+                painter.setPen(QPen(Qt.red,1,Qt.DashLine))      #new paint settings for Psuedo car
+                painter.setBrush(QBrush(Qt.gray,Qt.NoBrush))
+
+                painter.drawEllipse(a_car.calculate_position(),a_car.CAR_GUI_RADIUS,a_car.CAR_GUI_RADIUS)
+                painter.drawText(a_car.calculate_position(),str(a_car.CarNumber))
+
+                painter.setPen(QPen(Qt.black,2,Qt.SolidLine))       # restore paint settings after drawing a psuedo car
+                painter.setBrush(QBrush(Qt.green,Qt.SolidPattern))
 
 
 
