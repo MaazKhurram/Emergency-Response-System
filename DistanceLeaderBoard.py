@@ -81,12 +81,14 @@ class DistanceLeaderBoard:
 
 
 
-    def update_leaderboard(DistanceLeaderBoard):           # only used when lane is switched or speed of any car is changed. Not tested yet
+    def update_leaderboard():           # only used when lane is switched or speed of any car is changed. Not tested yet
 
         angle_sorted_inner_cars = sorted(CarMaintainer.Inner_Car_List, key=lambda x: x.CarAngle, reverse=True)
 
         angle_sorted_inner_cars.insert(0, angle_sorted_inner_cars[len(angle_sorted_inner_cars)-1])        #copy and insert the last Car object in the list on the first place
 
+        DistanceLeaderBoard.Distance_list_inner.clear()
+        DistanceLeaderBoard.Distance_list_outer.clear()
 
 
         for i in range(len(angle_sorted_inner_cars)-1, 0, -1):

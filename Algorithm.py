@@ -1,6 +1,7 @@
 from CarMaintainer import CarMaintainer
 from DistanceLeaderBoard import DistanceLeaderBoard
 import math
+import copy
 
 class Algorithm:
 
@@ -62,6 +63,7 @@ class Algorithm:
 
                 if a_gap[2] > 60 : #if the gap is big enough , fill the gap
 
+
                     car_ahead_number = a_gap[0]
                     car_behind_number = a_gap[1]
 
@@ -88,8 +90,6 @@ class Algorithm:
                     else:
                         potential_spot_angle_behind =  ( car_behind_angle + 35  )
 
-                    #print("Car ahead angle= ", car_ahead_angle , "potential spot angle front= ", potential_spot_angle_front)
-                    #print("Car behind angle= ", car_behind_angle , "potential spot angle behind= ", potential_spot_angle_behind)
 
                     points_to_draw.append([200*math.cos(math.radians(potential_spot_angle_front)), 200*math.sin(math.radians(potential_spot_angle_front))])
                     points_to_draw.append([200*math.cos(math.radians(potential_spot_angle_behind)), 200*math.sin(math.radians(potential_spot_angle_behind))])
@@ -98,12 +98,22 @@ class Algorithm:
                     for outer_car in CarMaintainer.Outer_Car_List:
 
                         if potential_spot_angle_front > potential_spot_angle_behind:
-                            if outer_car.CarAngle > potential_spot_angle_behind and outer_car.CarAngle < potential_spot_angle_front:
+                            if outer_car.CarAngle > potential_spot_angle_behind and outer_car.CarAngle < potential_spot_angle_front:    #if the car is in the angular gap , decrease the lane radius and pull it into inner lane
 
                                 if outer_car.PSUEDO_CAR == False :
                                     outer_car.CarLaneRadius-=1
                                     outer_car.PSUEDO_CAR = True
+
                                     print("status changed Car angle == ",outer_car.CarAngle )
+                                    temp_obj=copy.deepcopy(outer_car)
+                                    temp_obj.lane_changed=0
+                                    temp_obj.CarLaneRadius=100
+                                    temp_obj.PSUEDO_CAR = True
+                                    CarMaintainer.Inner_Car_List.append(temp_obj)
+                                    DistanceLeaderBoard.update_leaderboard()
+
+                                    print("+++++++++++++++++++")
+                                    print(*DistanceLeaderBoard.Distance_list_inner, sep='\n')
 
 
                         elif potential_spot_angle_front < potential_spot_angle_behind:
