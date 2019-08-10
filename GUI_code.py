@@ -23,6 +23,8 @@ class Window(QMainWindow):
     STATE_OF_EMERGENCY=1
 
 
+
+
     def __init__(self):
         super().__init__()
 
@@ -67,11 +69,13 @@ class Window(QMainWindow):
 
     def on_click(self):
         Window.STATE_OF_EMERGENCY=1
-        print("TEST")
+
 
 
 
     def paintEvent(self, e):
+
+
 
 
 
@@ -140,6 +144,19 @@ class Window(QMainWindow):
         for a_car in CarMaintainer.Outer_Car_List:
             painter.drawEllipse(a_car.calculate_position(),a_car.CAR_GUI_RADIUS,a_car.CAR_GUI_RADIUS)
             painter.drawText(a_car.calculate_position(),str(a_car.CarNumber))
+
+        for a_car in CarMaintainer.In_Transition_List:
+
+
+                painter.setBrush(QBrush(Qt.yellow,Qt.SolidPattern))
+
+                painter.drawEllipse(a_car.calculate_position(),a_car.CAR_GUI_RADIUS,a_car.CAR_GUI_RADIUS)
+                painter.drawText(a_car.calculate_position(),str(a_car.CarNumber))
+
+                painter.setBrush(QBrush(Qt.green,Qt.SolidPattern))
+
+
+
 
 
         painter.setPen(QPen(Qt.red,1,Qt.SolidLine))

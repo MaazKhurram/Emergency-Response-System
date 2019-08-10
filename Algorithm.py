@@ -49,12 +49,14 @@ class Algorithm:
         if system_state==0:
             list(map(lambda x:x.update_car_angle(),CarMaintainer.Inner_Car_List))      # lambda functions to update angle of every car object in this list
             list(map(lambda x:x.update_car_angle(),CarMaintainer.Outer_Car_List))
+            list(map(lambda x:x.update_car_angle(),CarMaintainer.In_Transition_List))
             #pass
 
         elif system_state==1:
 
             list(map(lambda x:x.update_car_angle(),CarMaintainer.Inner_Car_List))      # lambda functions to update angle of every car object in this list
             list(map(lambda x:x.update_car_angle(),CarMaintainer.Outer_Car_List))
+            list(map(lambda x:x.update_car_angle(),CarMaintainer.In_Transition_List))
 
 
             Algorithm.lane_switch_completed()
@@ -95,7 +97,7 @@ class Algorithm:
                         potential_spot_angle_behind =  ( car_behind_angle + 35  )
 
 
-                    points_to_draw.append([200*math.cos(math.radians(potential_spot_angle_front)), 200*math.sin(math.radians(potential_spot_angle_front))])
+                    points_to_draw.append([200*math.cos(math.radians(potential_spot_angle_front)), 200*math.sin(math.radians(potential_spot_angle_front))])     #draw the prediction gaps on outer lane
                     points_to_draw.append([200*math.cos(math.radians(potential_spot_angle_behind)), 200*math.sin(math.radians(potential_spot_angle_behind))])
 
 
@@ -109,12 +111,18 @@ class Algorithm:
                                     outer_car.lane_change_started = True
                                     print("status changed Car angle == ",outer_car.CarAngle )
 
-                                    temp_obj=copy.deepcopy(outer_car)
+                                    temp_obj=copy.deepcopy(outer_car)           #create a psuedo car in the inner list as soon as outer car leaves outer lane
                                     temp_obj.lane_changed=0
                                     temp_obj.CarLaneRadius=100
                                     temp_obj.PSUEDO_CAR = True
                                     CarMaintainer.Inner_Car_List.append(temp_obj)
                                     DistanceLeaderBoard.update_leaderboard()
+
+                                    transition_copy = copy.deepcopy(outer_car)
+                                    CarMaintainer.In_Transition_List.append(transition_copy) #copy the outer car into transition list
+
+                                    index_of_car = CarMaintainer.Outer_Car_List.index(outer_car)
+                                    CarMaintainer.Outer_Car_List.pop(index_of_car)              # delete the car from outer_list
 
 
 
@@ -136,6 +144,11 @@ class Algorithm:
                                     DistanceLeaderBoard.update_leaderboard()
 
 
+                                    transition_copy = copy.deepcopy(outer_car)
+                                    CarMaintainer.In_Transition_List.append(transition_copy) #copy the outer car into transition list
+
+                                    index_of_car = CarMaintainer.Outer_Car_List.index(outer_car)
+                                    CarMaintainer.Outer_Car_List.pop(index_of_car)              # delete the car from outer_list
 
 
 
@@ -151,21 +164,21 @@ class Algorithm:
     def lane_switch_completed():
 
 
-        for outer_car in CarMaintainer.Outer_Car_List:
-            if outer_car.CarLaneRadius==100 and outer_car.lane_changed == 0:   #find if the outer cane has completely switched the lane yet
+        for transit_car in CarMaintainer.In_Transition_List:
+            if transit_car.CarLaneRadius==100 and transit_car.lane_changed == 0:   #find if the outer car has completely switched the lane yet
                 for inner_car in CarMaintainer.Inner_Car_List:
-                    if outer_car.CarNumber == inner_car.CarNumber and inner_car.PSUEDO_CAR == True : # find the corresponding inner psuedo car
+                    if transit_car.CarNumber == inner_car.CarNumber and inner_car.PSUEDO_CAR == True : # find the corresponding inner psuedo car
 
-                        outer_car.lane_changed = 1
-                        outer_car.lane_change_started = False
+                        transit_car.lane_changed = 1
+                        transit_car.lane_change_started = False
 
-                        obj_to_copy = copy.deepcopy(outer_car)
+                        obj_to_copy = copy.deepcopy(transit_car)
                         index_of_inner_car = CarMaintainer.Inner_Car_List.index(inner_car)
                         CarMaintainer.Inner_Car_List.pop(index_of_inner_car)      # delete the psuedo car from inner list
                         CarMaintainer.Inner_Car_List.append(obj_to_copy)     #transfer the object from outer list to inner list
 
-                        index_of_outer_car = CarMaintainer.Outer_Car_List.index(outer_car)
-                        CarMaintainer.Outer_Car_List.pop(index_of_outer_car)          #after transferring the car to inner list , delete it from outer list
+                        index_of_outer_car = CarMaintainer.In_Transition_List.index(transit_car)
+                        CarMaintainer.In_Transition_List.pop(index_of_outer_car)          #after transferring the car to inner list , delete it from transit list
                         DistanceLeaderBoard.update_leaderboard()
 
                         print("++++++++++++++++++inner list below")
