@@ -7,6 +7,7 @@ class Algorithm:
 
     list_of_arcs=[]
     list_of_arrows=[]
+    GAP_OPTIMIZATION_COMPLETE = True
 
     def __init__(self):
         DistanceLeaderBoard()
@@ -50,7 +51,6 @@ class Algorithm:
             list(map(lambda x:x.update_car_angle(),CarMaintainer.Inner_Car_List))      # lambda functions to update angle of every car object in this list
             list(map(lambda x:x.update_car_angle(),CarMaintainer.Outer_Car_List))
             list(map(lambda x:x.update_car_angle(),CarMaintainer.In_Transition_List))
-            #pass
 
         elif system_state==1:
 
@@ -64,10 +64,16 @@ class Algorithm:
 
 
             points_to_draw=list()
+
+            gaps_exist = False
+
+
             for a_gap in DistanceLeaderBoard.Distance_list_inner:       #grab the biggest gap in the inner lane
 
 
                 if a_gap[2] > 90 : #if the gap is big enough , fill the gap
+
+                    gaps_exist = True
 
 
                     car_ahead_number = a_gap[0]
@@ -91,7 +97,7 @@ class Algorithm:
                         potential_spot_angle_front = ( car_ahead_angle -55 )
 
 
-                    if  ( car_behind_angle +35 ) > 360 :
+                    if  ( car_behind_angle + 35 ) > 360 :
                         potential_spot_angle_behind = ( car_behind_angle + 35 ) - 360
                     else:
                         potential_spot_angle_behind =  ( car_behind_angle + 35  )
@@ -151,13 +157,43 @@ class Algorithm:
                                     CarMaintainer.Outer_Car_List.pop(index_of_car)              # delete the car from outer_list
 
 
-
-
-
-        else:
-            print("Invalid system state")
-
-
+        #     if gaps_exist == False and len(CarMaintainer.In_Transition_List)==0:         #no more gaps exist . Time to optimize the inner lane
+        #
+        #
+        #         list_of_distances_to_decrease = DistanceLeaderBoard.Distance_list_inner[1: len(DistanceLeaderBoard.Distance_list_inner)]
+        #         print("======here is the list of distances to decrease")
+        #         print(*list_of_distances_to_decrease , sep="\n")
+        #
+        #         print(len(list_of_distances_to_decrease))  # keep looping until the lane is fully optimized
+        #
+        #
+        #         for a_distance in list_of_distances_to_decrease:
+        #
+        #             if a_distance[2] > 35:
+        #                 car_ahead_number = a_distance[0]
+        #                 car_behind_number = a_distance[1]
+        #
+        #                 for inner_car in CarMaintainer.Inner_Car_List:      #find the car objects using their car number
+        #
+        #                     if inner_car.CarNumber == car_behind_number:
+        #                         inner_car.optimize_car_angle()
+        #                         DistanceLeaderBoard.update_leaderboard()
+        #
+        #             else:
+        #                 distance_to_delete=list_of_distances_to_decrease.index(a_distance)      #if the gap is already too less , delete the gap
+        #                 list_of_distances_to_decrease.pop(distance_to_delete)
+        #                 print("LIST ENTRY DELETED---------------------------------")
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        # else:
+        #     print("Invalid system state")
+        #
+        #
         return points_to_draw
 
 
@@ -181,10 +217,9 @@ class Algorithm:
                         CarMaintainer.In_Transition_List.pop(index_of_outer_car)          #after transferring the car to inner list , delete it from transit list
                         DistanceLeaderBoard.update_leaderboard()
 
-                        print("++++++++++++++++++inner list below")
-                        print(*DistanceLeaderBoard.Distance_list_inner, sep='\n')
-                        print("__________________ outer list below")
-                        print(*DistanceLeaderBoard.Distance_list_outer, sep='\n')
+
+
+
 
 
 

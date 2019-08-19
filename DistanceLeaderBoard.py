@@ -114,6 +114,10 @@ class DistanceLeaderBoard:
 
         DistanceLeaderBoard.Distance_list_inner.sort(key=lambda x: x[2], reverse=True)
 
+        for a_dis in DistanceLeaderBoard.Distance_list_inner:
+            if a_dis[2] < 0 :
+                print("****  NEGATIVE ENTRY **** " )
+                print("other = ", other ," you = ", you)
 
 
         #---------------------------------------

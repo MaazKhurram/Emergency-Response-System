@@ -35,21 +35,22 @@ class Car:
 
     def update_car_angle(self):
 
+
         if self.CarLaneRadius==100:
-            if self.CarAngle <= 361 and self.CarAngle >=359:
+            if self.CarAngle >=360:
                 self.CarAngle=1
             else:
                 self.CarAngle+=0.75
 
         elif self.CarLaneRadius == 200 :
-            if self.CarAngle <= 361 and self.CarAngle >=359:
+            if self.CarAngle >=360:
                 self.CarAngle=1
             else:
                 self.CarAngle+=1.5
 
         elif self.CarLaneRadius < 200 and self.CarLaneRadius >=150:
 
-            if self.CarAngle <= 361 and self.CarAngle >=359:
+            if self.CarAngle >=360:
                 self.CarAngle=1
             else:
                 self.CarAngle+=1.5
@@ -61,11 +62,12 @@ class Car:
 
         elif self.CarLaneRadius <= 150 and self.CarLaneRadius >= 100:                        # this will be used for cars in transition
             self.CarLaneRadius -= 0.5
+
+            if self.CarAngle >=360:
+                self.CarAngle=1
             self.CarAngle += self.radius_to_speed_mapping(self.CarLaneRadius,150,200,0.75,1.5)
 
 
-            #print (self.CarNumber, self.CarAngle)
-            #print ("+++++++++++++++++++++++++++++")
 
 
         else:
@@ -92,3 +94,15 @@ class Car:
 
         # Convert the 0-1 range into a value in the right range.
         return speed_min + (valueScaled * speedSpan)
+
+
+    def optimize_car_angle(self):
+
+        if self.CarLaneRadius==100:
+            if self.CarAngle <= 363 and self.CarAngle >=360:
+                self.CarAngle=1
+            else:
+                self.CarAngle+=0.1
+
+        else:
+            print("optimize car angle wrongly called")
