@@ -91,16 +91,16 @@ class Algorithm:
                             pass
 
 
-                    if ( car_ahead_angle - 55 ) < 0:        # deciding the angular location to fill up in inner lane
-                        potential_spot_angle_front = ( car_ahead_angle -55 ) + 360
+                    if ( car_ahead_angle - 54 ) < 0:        # deciding the angular location to fill up in inner lane
+                        potential_spot_angle_front = ( car_ahead_angle -54 ) + 360
                     else:
-                        potential_spot_angle_front = ( car_ahead_angle -55 )
+                        potential_spot_angle_front = ( car_ahead_angle -54 )
 
 
-                    if  ( car_behind_angle + 35 ) > 360 :
-                        potential_spot_angle_behind = ( car_behind_angle + 35 ) - 360
+                    if  ( car_behind_angle + 34 ) > 360 :
+                        potential_spot_angle_behind = ( car_behind_angle + 34 ) - 360
                     else:
-                        potential_spot_angle_behind =  ( car_behind_angle + 35  )
+                        potential_spot_angle_behind =  ( car_behind_angle + 34  )
 
 
                     points_to_draw.append([200*math.cos(math.radians(potential_spot_angle_front)), 200*math.sin(math.radians(potential_spot_angle_front))])     #draw the prediction gaps on outer lane
@@ -157,43 +157,42 @@ class Algorithm:
                                     CarMaintainer.Outer_Car_List.pop(index_of_car)              # delete the car from outer_list
 
 
-        #     if gaps_exist == False and len(CarMaintainer.In_Transition_List)==0:         #no more gaps exist . Time to optimize the inner lane
-        #
-        #
-        #         list_of_distances_to_decrease = DistanceLeaderBoard.Distance_list_inner[1: len(DistanceLeaderBoard.Distance_list_inner)]
-        #         print("======here is the list of distances to decrease")
-        #         print(*list_of_distances_to_decrease , sep="\n")
-        #
-        #         print(len(list_of_distances_to_decrease))  # keep looping until the lane is fully optimized
-        #
-        #
-        #         for a_distance in list_of_distances_to_decrease:
-        #
-        #             if a_distance[2] > 35:
-        #                 car_ahead_number = a_distance[0]
-        #                 car_behind_number = a_distance[1]
-        #
-        #                 for inner_car in CarMaintainer.Inner_Car_List:      #find the car objects using their car number
-        #
-        #                     if inner_car.CarNumber == car_behind_number:
-        #                         inner_car.optimize_car_angle()
-        #                         DistanceLeaderBoard.update_leaderboard()
-        #
-        #             else:
-        #                 distance_to_delete=list_of_distances_to_decrease.index(a_distance)      #if the gap is already too less , delete the gap
-        #                 list_of_distances_to_decrease.pop(distance_to_delete)
-        #                 print("LIST ENTRY DELETED---------------------------------")
-        #
-        #
-        #
-        #
-        #
-        #
-        #
-        # else:
-        #     print("Invalid system state")
-        #
-        #
+            if gaps_exist == False and len(CarMaintainer.In_Transition_List)==0:         #no more gaps exist . Time to optimize the inner lane
+
+
+                list_of_distances_to_decrease = DistanceLeaderBoard.Distance_list_inner[1: len(DistanceLeaderBoard.Distance_list_inner)]
+
+
+
+                for a_distance in list_of_distances_to_decrease:
+
+                    if a_distance[2] > 35:
+                        car_ahead_number = a_distance[0]
+                        car_behind_number = a_distance[1]
+
+                        for inner_car in CarMaintainer.Inner_Car_List:      #find the car objects using their car number
+
+                            if inner_car.CarNumber == car_behind_number:
+                                inner_car.optimize_car_angle()
+                                DistanceLeaderBoard.update_leaderboard()
+
+
+
+                    else:
+                        distance_to_delete=list_of_distances_to_decrease.index(a_distance)      #if the gap is already too less , delete the gap
+                        list_of_distances_to_decrease.pop(distance_to_delete)
+
+
+
+
+
+
+
+
+        else:
+            print("Invalid system state")
+
+
         return points_to_draw
 
 

@@ -83,6 +83,7 @@ class DistanceLeaderBoard:
 
     def update_leaderboard():           # only used when lane is switched or speed of any car is changed. Not tested yet
 
+
         DistanceLeaderBoard.Distance_list_inner.clear()
         DistanceLeaderBoard.Distance_list_outer.clear()
 

@@ -2,6 +2,7 @@ from PyQt5.QtCore import QPointF
 import math
 
 
+
 class Car:
 
     CAR_GUI_RADIUS=25
@@ -36,19 +37,27 @@ class Car:
     def update_car_angle(self):
 
 
-        if self.CarLaneRadius==100:
+        if self.CarLaneRadius==100:     # inner lane cars move 0.75 pix/sec
             if self.CarAngle >=360:
                 self.CarAngle=1
             else:
                 self.CarAngle+=0.75
 
-        elif self.CarLaneRadius == 200 :
+
+
+
+
+
+        elif self.CarLaneRadius == 200 :        #outer cars move 1.5 pix/sec
             if self.CarAngle >=360:
                 self.CarAngle=1
             else:
                 self.CarAngle+=1.5
 
-        elif self.CarLaneRadius < 200 and self.CarLaneRadius >=150:
+
+
+
+        elif self.CarLaneRadius < 200 and self.CarLaneRadius >=150:                     # this will be used for cars in transition
 
             if self.CarAngle >=360:
                 self.CarAngle=1
@@ -60,12 +69,21 @@ class Car:
 
 
 
+
+
+
+
         elif self.CarLaneRadius <= 150 and self.CarLaneRadius >= 100:                        # this will be used for cars in transition
             self.CarLaneRadius -= 0.5
 
             if self.CarAngle >=360:
                 self.CarAngle=1
+
             self.CarAngle += self.radius_to_speed_mapping(self.CarLaneRadius,150,200,0.75,1.5)
+
+
+
+
 
 
 
@@ -99,10 +117,10 @@ class Car:
     def optimize_car_angle(self):
 
         if self.CarLaneRadius==100:
-            if self.CarAngle <= 363 and self.CarAngle >=360:
+            if self.CarAngle >=360:
                 self.CarAngle=1
             else:
-                self.CarAngle+=0.1
+                self.CarAngle+=0.5
 
         else:
             print("optimize car angle wrongly called")
