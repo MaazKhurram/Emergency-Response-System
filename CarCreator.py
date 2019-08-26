@@ -60,7 +60,8 @@ class CarCreator:
 
         CarCreator.car_number+=1
 
-        CarCreator.Outer_Car_List.append(Car(CarCreator.car_number, 0, 0, lane_radius=200))    #create the first car manually
+        CarCreator.Outer_Car_List.append(Car(CarCreator.car_number, 0, 0, lane_radius=200))    #create the first car manually which is actually an emergency vehicle
+        CarCreator.Outer_Car_List[0].IS_AMBULANCE = True                                    # make it an emergency vehicle
 
 
         for i in range(0,outer_cars-1):                         #create all other cars in a loop

@@ -142,8 +142,20 @@ class Window(QMainWindow):
 
 
         for a_car in CarMaintainer.Outer_Car_List:
-            painter.drawEllipse(a_car.calculate_position(),a_car.CAR_GUI_RADIUS,a_car.CAR_GUI_RADIUS)
-            painter.drawText(a_car.calculate_position(),str(a_car.CarNumber))
+
+            if a_car.IS_AMBULANCE == False :
+                painter.drawEllipse(a_car.calculate_position(),a_car.CAR_GUI_RADIUS,a_car.CAR_GUI_RADIUS)
+                painter.drawText(a_car.calculate_position(),str(a_car.CarNumber))
+
+            else:
+                painter.setBrush(QBrush(Qt.red,Qt.SolidPattern))
+
+                painter.drawEllipse(a_car.calculate_position(),a_car.CAR_GUI_RADIUS,a_car.CAR_GUI_RADIUS)
+                painter.drawText(a_car.calculate_position(),str(a_car.CarNumber))
+
+                painter.setBrush(QBrush(Qt.green,Qt.SolidPattern))
+
+
 
         for a_car in CarMaintainer.In_Transition_List:
 

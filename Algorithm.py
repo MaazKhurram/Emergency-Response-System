@@ -109,52 +109,56 @@ class Algorithm:
 
                     for outer_car in CarMaintainer.Outer_Car_List:
 
-                        if potential_spot_angle_front > potential_spot_angle_behind:
-                            if outer_car.CarAngle > potential_spot_angle_behind and outer_car.CarAngle < potential_spot_angle_front:    #if the car is in the angular gap , decrease the lane radius and pull it into inner lane
-
-                                if outer_car.lane_change_started == False :
-                                    outer_car.CarLaneRadius-=1
-                                    outer_car.lane_change_started = True
-                                    print("status changed Car angle == ",outer_car.CarAngle )
-
-                                    temp_obj=copy.deepcopy(outer_car)           #create a psuedo car in the inner list as soon as outer car leaves outer lane
-                                    temp_obj.lane_changed=0
-                                    temp_obj.CarLaneRadius=100
-                                    temp_obj.PSUEDO_CAR = True
-                                    CarMaintainer.Inner_Car_List.append(temp_obj)
-                                    DistanceLeaderBoard.update_leaderboard()
-
-                                    transition_copy = copy.deepcopy(outer_car)
-                                    CarMaintainer.In_Transition_List.append(transition_copy) #copy the outer car into transition list
-
-                                    index_of_car = CarMaintainer.Outer_Car_List.index(outer_car)
-                                    CarMaintainer.Outer_Car_List.pop(index_of_car)              # delete the car from outer_list
 
 
+                        if outer_car.IS_AMBULANCE == False :        # do the lane changing calculation only for normal outer lane cars
 
-                        elif potential_spot_angle_front < potential_spot_angle_behind:
-                            if (outer_car.CarAngle < potential_spot_angle_front and outer_car.CarAngle >= 0) or (outer_car.CarAngle > potential_spot_angle_behind and outer_car.CarAngle <= 360):
+                            if potential_spot_angle_front > potential_spot_angle_behind:
+                                if outer_car.CarAngle > potential_spot_angle_behind and outer_car.CarAngle < potential_spot_angle_front:    #if the car is in the angular gap , decrease the lane radius and pull it into inner lane
 
-                                if outer_car.lane_change_started == False :
-                                    outer_car.CarLaneRadius-=1
-                                    outer_car.lane_change_started= True
-                                    print("status changed Car angle **** ANGLE AT 0 **** == ",outer_car.CarAngle )
+                                    if outer_car.lane_change_started == False :
+                                        outer_car.CarLaneRadius-=1
+                                        outer_car.lane_change_started = True
+                                        print("status changed Car angle == ",outer_car.CarAngle )
 
-                                    print (potential_spot_angle_front,potential_spot_angle_behind)
+                                        temp_obj=copy.deepcopy(outer_car)           #create a psuedo car in the inner list as soon as outer car leaves outer lane
+                                        temp_obj.lane_changed=0
+                                        temp_obj.CarLaneRadius=100
+                                        temp_obj.PSUEDO_CAR = True
+                                        CarMaintainer.Inner_Car_List.append(temp_obj)
+                                        DistanceLeaderBoard.update_leaderboard()
 
-                                    temp_obj=copy.deepcopy(outer_car)
-                                    temp_obj.lane_changed=0
-                                    temp_obj.CarLaneRadius=100
-                                    temp_obj.PSUEDO_CAR = True
-                                    CarMaintainer.Inner_Car_List.append(temp_obj)
-                                    DistanceLeaderBoard.update_leaderboard()
+                                        transition_copy = copy.deepcopy(outer_car)
+                                        CarMaintainer.In_Transition_List.append(transition_copy) #copy the outer car into transition list
+
+                                        index_of_car = CarMaintainer.Outer_Car_List.index(outer_car)
+                                        CarMaintainer.Outer_Car_List.pop(index_of_car)              # delete the car from outer_list
 
 
-                                    transition_copy = copy.deepcopy(outer_car)
-                                    CarMaintainer.In_Transition_List.append(transition_copy) #copy the outer car into transition list
 
-                                    index_of_car = CarMaintainer.Outer_Car_List.index(outer_car)
-                                    CarMaintainer.Outer_Car_List.pop(index_of_car)              # delete the car from outer_list
+                            elif potential_spot_angle_front < potential_spot_angle_behind:
+                                if (outer_car.CarAngle < potential_spot_angle_front and outer_car.CarAngle >= 0) or (outer_car.CarAngle > potential_spot_angle_behind and outer_car.CarAngle <= 360):
+
+                                    if outer_car.lane_change_started == False :
+                                        outer_car.CarLaneRadius-=1
+                                        outer_car.lane_change_started= True
+                                        print("status changed Car angle **** ANGLE AT 0 **** == ",outer_car.CarAngle )
+
+                                        print (potential_spot_angle_front,potential_spot_angle_behind)
+
+                                        temp_obj=copy.deepcopy(outer_car)
+                                        temp_obj.lane_changed=0
+                                        temp_obj.CarLaneRadius=100
+                                        temp_obj.PSUEDO_CAR = True
+                                        CarMaintainer.Inner_Car_List.append(temp_obj)
+                                        DistanceLeaderBoard.update_leaderboard()
+
+
+                                        transition_copy = copy.deepcopy(outer_car)
+                                        CarMaintainer.In_Transition_List.append(transition_copy) #copy the outer car into transition list
+
+                                        index_of_car = CarMaintainer.Outer_Car_List.index(outer_car)
+                                        CarMaintainer.Outer_Car_List.pop(index_of_car)              # delete the car from outer_list
 
 
             if gaps_exist == False and len(CarMaintainer.In_Transition_List)==0:         #no more gaps exist . Time to optimize the inner lane
@@ -167,7 +171,6 @@ class Algorithm:
                 for a_distance in list_of_distances_to_decrease:
 
                     if a_distance[2] > 35:
-                        car_ahead_number = a_distance[0]
                         car_behind_number = a_distance[1]
 
                         for inner_car in CarMaintainer.Inner_Car_List:      #find the car objects using their car number

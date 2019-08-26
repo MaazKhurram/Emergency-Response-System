@@ -7,8 +7,8 @@ class Car:
 
     CAR_GUI_RADIUS=25
     free_distance_ahead = 0  #used to arrange inner car lanes to produce more gaps
-    PSUEDO_CAR = False
-
+    PSUEDO_CAR = False       #acts like a car place holder in inner lane as outer lane car transits into inner lane
+    IS_AMBULANCE = False      # only true for one emergency vehicle in outer lane
 
     def __init__(self,number,angle,lane_changed, lane_radius, **kwargs):
         self.CarAngle = angle
@@ -27,10 +27,16 @@ class Car:
 
 
 
+
     def calculate_position(self):
         self.carX=self.CarLaneRadius*math.cos(math.radians(self.CarAngle))     #outer lane radius is 200
         self.carY=self.CarLaneRadius*math.sin(math.radians(self.CarAngle))
         return QPointF(self.carX,self.carY)
+
+
+
+
+
 
 
 
@@ -44,17 +50,11 @@ class Car:
                 self.CarAngle+=0.75
 
 
-
-
-
-
         elif self.CarLaneRadius == 200 :        #outer cars move 1.5 pix/sec
             if self.CarAngle >=360:
                 self.CarAngle=1
             else:
                 self.CarAngle+=1.5
-
-
 
 
         elif self.CarLaneRadius < 200 and self.CarLaneRadius >=150:                     # this will be used for cars in transition
@@ -65,12 +65,6 @@ class Car:
                 self.CarAngle+=1.5
 
             self.CarLaneRadius-=1
-            #print (self.CarNumber, self.CarAngle)
-
-
-
-
-
 
 
         elif self.CarLaneRadius <= 150 and self.CarLaneRadius >= 100:                        # this will be used for cars in transition
@@ -82,14 +76,13 @@ class Car:
             self.CarAngle += self.radius_to_speed_mapping(self.CarLaneRadius,150,200,0.75,1.5)
 
 
-
-
-
-
-
-
         else:
             print("error identifying the lane of the car --- Car.update_car_angle() failed")
+
+
+
+
+
 
 
 
@@ -99,6 +92,10 @@ class Car:
         " Car current angle = " + str(self.CarAngle) + "\n"
         " Car priority = " + str(self.priority) + "\n"
         " Free distance ahead : " + str(self.free_distance_ahead) + "\n\n")
+
+
+
+
 
 
 
@@ -112,6 +109,10 @@ class Car:
 
         # Convert the 0-1 range into a value in the right range.
         return speed_min + (valueScaled * speedSpan)
+
+
+
+
 
 
     def optimize_car_angle(self):
